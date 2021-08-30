@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
-const PORT = 5000 || process.env.PORT;
+const PORT = 5000;
 
 if (process.env.NODE_ENV !== 'production') require('dotenv').config();
 
@@ -39,7 +39,7 @@ app.get('/', (req, res) => {
   res.send('running...');
 });
 
-app.listen(PORT, (error) => {
+app.listen(process.env.PORT || PORT, (error) => {
   if (error) throw error;
   console.log(`Example app listening at http://localhost:${PORT}`);
 });
