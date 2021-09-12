@@ -11,7 +11,7 @@ import SignInSignUpPage from './pages/sign-in-sign-up/sign-in-sign-up.component'
 import { selectCurrentUser } from './redux/user-reducer/user.selector';
 import { checkUserSession } from './redux/user-reducer/user-actions';
 
-import './App.css';
+import { GlobalStyle } from './global.styles';
 
 const App = () => {
   // first approach without selector
@@ -27,6 +27,7 @@ const App = () => {
 
   return (
     <div className='App'>
+      <GlobalStyle />
       <Header />
       <Switch>
         <Route exact path='/' component={HomePage} />
