@@ -9,9 +9,7 @@ const HomePage = () => {
       <Profiler
         id='directory'
         onRender={(id, phase, actualDuration) => {
-          console.log(id);
-          console.log(phase);
-          console.log(actualDuration);
+          console.log(phase, actualDuration);
         }}
       >
         <Directory />
