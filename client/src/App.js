@@ -1,17 +1,22 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, lazy, Suspense } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import Header from './components/header/header.component';
-import HomePage from './pages/homepage/homepage.component';
-import Shop from './pages/shop/shop.component';
-import Checkout from './pages/checkout/checkout.component';
-import SignInSignUpPage from './pages/sign-in-sign-up/sign-in-sign-up.component';
+import SimpleSpinner from './components/simple-spinner/simple-spinner';
+import ErrorBoundary from './components/error-boundary/error-boundary';
 
 //redux sagas actions
 import { selectCurrentUser } from './redux/user-reducer/user.selector';
 import { checkUserSession } from './redux/user-reducer/user-actions';
 
 import { GlobalStyle } from './global.styles';
+
+const HomePage = lazy(() => import('./pages/homepage/homepage.component'));
+const Shop = lazy(() => import('./pages/shop/shop.component'));
+const Checkout = lazy(() => import('./pages/checkout/checkout.component'));
+const SignInSignUpPage = lazy(() =>
+  import('./pages/sign-in-sign-up/sign-in-sign-up.component')
+);
 
 const App = () => {
   // first approach without selector
@@ -30,16 +35,20 @@ const App = () => {
       <GlobalStyle />
       <Header />
       <Switch>
-        <Route exact path='/' component={HomePage} />
-        <Route path='/shop' component={Shop} />
-        <Route
-          exact
-          path='/signin'
-          render={() =>
-            userSelector ? <Redirect to='/' /> : <SignInSignUpPage />
-          }
-        />
-        <Route exact path='/checkout' component={Checkout} />
+        <ErrorBoundary>
+          <Suspense fallback={<SimpleSpinner />}>
+            <Route exact path='/' component={HomePage} />
+            <Route path='/shop' component={Shop} />
+            <Route
+              exact
+              path='/signin'
+              render={() =>
+                userSelector ? <Redirect to='/' /> : <SignInSignUpPage />
+              }
+            />
+            <Route exact path='/checkout' component={Checkout} />
+          </Suspense>
+        </ErrorBoundary>
       </Switch>
     </div>
   );

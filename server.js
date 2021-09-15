@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
+const compression = require('compression');
 const PORT = 5000;
 
 if (process.env.NODE_ENV !== 'production') require('dotenv').config();
@@ -9,6 +10,7 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
 const app = express();
 
+app.use(compression());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
