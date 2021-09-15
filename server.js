@@ -1,7 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
-const compression = require('compression');
+
 const enforce = require('express-sslify');
 const PORT = 5000;
 
@@ -16,7 +16,7 @@ app.use(express.urlencoded({ extended: true }));
 
 if (process.env.NODE_ENV === 'production') {
   app.use(enforce.HTTPS({ trustProtoHeader: true }));
-  app.use(compression);
+
   app.use(express.static(path.join(__dirname, 'client/build')));
 
   app.get('*', (req, res) => {
